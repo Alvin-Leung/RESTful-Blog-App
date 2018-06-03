@@ -1,5 +1,6 @@
 var express = require("express"),
     mongoose = require("mongoose"),
+    bodyParser = require("body-parser"),
     app = express();
     
 var blogSchema = new mongoose.Schema({
@@ -15,6 +16,8 @@ mongoose.connect("mongodb://localhost/restfulblog");
 
 app.set("view engine", "ejs");
 
+app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(express.static("public"));
 
 app.get("/", function(req, res) {
@@ -26,10 +29,25 @@ app.get("/blogs", function(req, res) {
         if (err) {
             console.log(err);
         }
+            
+        res.render("index.ejs", { blogs: foundBlogs });
+    });
+});
+
+app.post("/blogs", function(req, res) {
+    Blog.create(req.body.blog, function(err) {
+        if (err) {
+            console.log(err);
+            res.redirect("/new");
+        }
         else {
-            res.render("index.ejs", { blogs: foundBlogs });
+            res.redirect("/blogs");
         }
     })
+});
+
+app.get("/blogs/new", function(req, res) {
+    res.render("new");
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
