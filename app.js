@@ -38,7 +38,7 @@ app.post("/blogs", function(req, res) {
     Blog.create(req.body.blog, function(err) {
         if (err) {
             console.log(err);
-            res.redirect("/new");
+            res.redirect("/blogs/new");
         }
         else {
             res.redirect("/blogs");
@@ -48,6 +48,19 @@ app.post("/blogs", function(req, res) {
 
 app.get("/blogs/new", function(req, res) {
     res.render("new");
+});
+
+app.get("/blogs/:id", function(req, res) {
+    var id = req.params.id;
+    
+    Blog.findById(id, function(err, foundBlog) {
+        if (err) {
+            res.redirect("/blogs");
+        }
+        else {
+            res.render("show", { blog: foundBlog }); 
+        }
+    })
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
