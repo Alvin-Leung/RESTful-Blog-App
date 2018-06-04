@@ -1,6 +1,7 @@
 var express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require("body-parser"),
+    methodOverride = require("method-override"),
     app = express();
     
 var blogSchema = new mongoose.Schema({
@@ -20,6 +21,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static("public"));
 
+app.use(methodOverride("_method"));
+
 app.get("/", function(req, res) {
    res.redirect("/blogs"); 
 });
@@ -30,7 +33,7 @@ app.get("/blogs", function(req, res) {
             console.log(err);
         }
             
-        res.render("index.ejs", { blogs: foundBlogs });
+        res.render("index", { blogs: foundBlogs });
     });
 });
 
@@ -61,6 +64,30 @@ app.get("/blogs/:id", function(req, res) {
             res.render("show", { blog: foundBlog }); 
         }
     })
+});
+
+app.get("/blogs/:id/edit", function(req, res) {
+    Blog.findById(req.params.id, function(err, foundBlog) {
+        if (err) {
+            console.log(err);
+            res.redirect("/blogs");
+        } 
+        else {
+            res.render("edit", { blog: foundBlog });
+        }
+    });
+});
+
+app.put("/blogs/:id", function(req, res) {
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err) {
+        if (err) {
+            console.log(err);
+            res.redirect("/blogs");
+        }
+        else {
+            res.redirect("/blogs/" + req.params.id);
+        }
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
