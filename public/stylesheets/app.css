@@ -1,3 +1,7 @@
+.editAndDelete {
+    margin-top: 1em;
+}
+
 .ui.main.container {
     margin-top: 5em;
 }
@@ -6,6 +10,6 @@
     display: inline;
 }
 
-i.icon {
+i.code.icon {
     font-size: 2em;
 }

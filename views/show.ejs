@@ -13,13 +13,13 @@
             <div class="description">
                 <p><%- blog.body %></p>
             </div>
+            <div class="editAndDelete">
+                <a href="<%= "/blogs/" + blog._id + "/edit" %>" class="ui orange button" type="submit">Edit</a>
             
-            
-            <a href="<%= "/blogs/" + blog._id + "/edit" %>" class="ui orange button" type="submit">Edit</a>
-            
-            <form class="ui form" action="<%= "/blogs/" + blog._id + "?_method=DELETE" %>" method="post">
-                <button class="ui red button" type="submit">Delete</button>   
-            </form>
+                <form class="ui form" action="<%= "/blogs/" + blog._id + "?_method=DELETE" %>" method="post">
+                    <button class="ui red button" type="submit">Delete</button>   
+                </form>
+            </div>
        </div>
     
     </div>

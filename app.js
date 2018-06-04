@@ -1,6 +1,7 @@
 var express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require("body-parser"),
+    expressSanitizer = require("express-sanitizer"),
     methodOverride = require("method-override"),
     app = express();
     
@@ -18,6 +19,8 @@ mongoose.connect("mongodb://localhost/restfulblog");
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(expressSanitizer());
 
 app.use(express.static("public"));
 
@@ -38,6 +41,8 @@ app.get("/blogs", function(req, res) {
 });
 
 app.post("/blogs", function(req, res) {
+    req.body.blog.body = req.sanitize(req.body.blog.body);
+    
     Blog.create(req.body.blog, function(err) {
         if (err) {
             console.log(err);
@@ -79,6 +84,8 @@ app.get("/blogs/:id/edit", function(req, res) {
 });
 
 app.put("/blogs/:id", function(req, res) {
+    req.body.blog.body = req.sanitize(req.body.blog.body);
+    
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err) {
         if (err) {
             console.log(err);
