@@ -27,7 +27,7 @@ app.use(express.static("public"));
 app.use(methodOverride("_method"));
 
 app.get("/", function(req, res) {
-   res.redirect("/blogs"); 
+    res.redirect("/blogs"); 
 });
 
 app.get("/blogs", function(req, res) {
@@ -108,6 +108,6 @@ app.delete("/blogs/:id", function(req, res) {
     }); 
 });
 
-app.listen(process.env.PORT, process.env.IP, function() {
+app.listen(3000, function() {
     console.log("server has started..");
 });
