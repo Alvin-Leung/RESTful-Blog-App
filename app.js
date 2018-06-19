@@ -14,7 +14,7 @@ var blogSchema = new mongoose.Schema({
 
 var Blog = mongoose.model("Blog", blogSchema);
 
-mongoose.connect("mongodb://localhost/restfulblog");
+mongoose.connect(process.env.RESTFULBLOGDB);
 
 app.set("view engine", "ejs");
 
@@ -108,6 +108,6 @@ app.delete("/blogs/:id", function(req, res) {
     }); 
 });
 
-app.listen(3000, function() {
+app.listen(process.env.PORT, process.env.IP, function() {
     console.log("server has started..");
 });
