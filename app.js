@@ -12,6 +12,10 @@ var blogSchema = new mongoose.Schema({
     body: String
 });
 
+var port = process.env.PORT || "3000";
+
+var ipAddress = process.env.IP || "0.0.0.0";
+
 var Blog = mongoose.model("Blog", blogSchema);
 
 mongoose.connect(process.env.RESTFULBLOGDB);
@@ -108,6 +112,6 @@ app.delete("/blogs/:id", function(req, res) {
     }); 
 });
 
-app.listen(process.env.PORT, process.env.IP, function() {
+app.listen(port, ipAddress, function() {
     console.log("server has started..");
 });
